@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use Illuminate\Http\Request;
+use App\Models\Client;
 
 class AddressController extends Controller
 {
@@ -22,9 +23,10 @@ class AddressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $client = Client::findOrFail($request['client_id']);
+        return view('address.create')->with('client', $client);
     }
 
     /**
@@ -35,7 +37,22 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'client_id' => 'required',
+            'description' => 'required',
+            'street' => 'required',
+            'number' => 'required',
+            'postal_code' => 'required',
+            'city' => 'required',
+            'country' => 'required'
+            ]);
+
+        $client = Client::findOrFail($validated['client_id']);
+
+        $address = new Address($validated);
+        $address->save();
+
+        return redirect(route('client.edit', $client->id));
     }
 
     /**
@@ -57,7 +74,7 @@ class AddressController extends Controller
      */
     public function edit(Address $address)
     {
-        //
+        return view('address.edit')->with('address', $address);
     }
 
     /**
@@ -69,7 +86,21 @@ class AddressController extends Controller
      */
     public function update(Request $request, Address $address)
     {
-        //
+        $validated = $request->validate([
+            'client_id' => 'required',
+            'description' => 'required',
+            'street' => 'required',
+            'number' => 'required',
+            'postal_code' => 'required',
+            'city' => 'required',
+            'country' => 'required'
+        ]);
+
+        $client = Client::findOrFail($validated['client_id']);
+
+        $address->update($validated);
+
+        return redirect(route('client.edit', $client->id));
     }
 
     /**

@@ -95,9 +95,30 @@
                     <div class="form-group row">
                         <label for="delivery_addresses" class="col-sm-2 col-form-label">Delivery addresses</label>
                         <div class="col-sm-10">
-                            @if (count($client->addresses()))
+                            @if (count($client->addresses()) == 0)
                                 No addresses
+                            @else
+                                <table class="table table-sm">
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Address</th>
+                                    </tr>
+                                    @foreach($client->addresses() as $address)
+                                    <tr>
+                                        <td>{{ $address->description  }}</td>
+                                        <td>
+                                            {{ $address->street . ' ' . $address->number }}<br>
+                                            {{ $address->postal_code . ' ' . $address->city }}<br>
+                                            {{ $address->country }}
+                                        </td>
+                                        <td><a href="{{ route('address.edit', $address->id) }}" class="btn btn-sm btn-outline-success">Edit</a></td>
+                                    </tr>
+                                    @endforeach
+                                </table>
                             @endif
+
+                                <br>
+                            <a href="{{ route('address.create', ['client_id' => $client->id]) }}" class="btn btn-outline-success">+ Add delivery address</a>
                         </div>
                     </div>
 

@@ -13,6 +13,6 @@ class Address extends Model
 
     public function client()
     {
-        return $this->belongsTo(Client::class)->get();
+        return $this->belongsTo(Client::class)->get()->first();
     }
 }
