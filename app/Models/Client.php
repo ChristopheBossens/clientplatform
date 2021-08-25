@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class)->get();
+    }
 }

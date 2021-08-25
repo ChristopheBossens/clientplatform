@@ -14,7 +14,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        $clients = Client::select('id', 'name', 'contact_person', 'phone_number')->get();
+        return view('dashboard')->with('clients', $clients);
     }
 
     /**
@@ -24,7 +25,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('client.create');
     }
 
     /**
@@ -35,7 +36,23 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'contact_person' => 'required',
+            'street' => 'required',
+            'number' => 'required',
+            'postal_code' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'phone_number' => 'required',
+            'email' => 'required|email',
+            'status' => 'required|integer',
+        ]);
+
+        $client = new Client($validated);
+        $client->save();
+
+        return redirect(route('client.index'));
     }
 
     /**
@@ -57,7 +74,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('client.edit')->with('client', $client);
     }
 
     /**
@@ -69,7 +86,22 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'contact_person' => 'required',
+            'street' => 'required',
+            'number' => 'required',
+            'postal_code' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'phone_number' => 'required',
+            'email' => 'required|email',
+            'status' => 'required|integer',
+        ]);
+
+        $client->update($validated);
+
+        return redirect(route('client.index'));
     }
 
     /**

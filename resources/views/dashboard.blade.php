@@ -15,22 +15,33 @@
 
         <div class="row">
             <div class="col-12">
-                <a href="#" class="btn btn-outline-success">+ Add new client</a>
+                <a href="{{ route('client.create') }}" class="btn btn-outline-success">+ Add new client</a>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row pt-5">
             <div class="col-12">
-                <table class="table-sm">
+                @if(count($clients) > 0)
+                <table class="table table-sm">
                     <thead>
                     <tr>
                         <th>Customer</th>
                         <th>Contact person</th>
                         <th>Phone</th>
-                        <th>Status</th>
+                        <th></th>
                     </tr>
+
+                    @foreach($clients as $client)
+                    <tr>
+                        <td>{{ $client->name }}</td>
+                        <td>{{ $client->contact_person }}</td>
+                        <td>{{ $client->phone_number }}</td>
+                        <td><a href="{{ route('client.edit', $client->id) }}" class="btn btn-sm btn-outline-success">Edit</a></td>
+                    </tr>
+                     @endforeach
                     </thead>
                 </table>
+                @endif()
             </div>
         </div>
     </div>

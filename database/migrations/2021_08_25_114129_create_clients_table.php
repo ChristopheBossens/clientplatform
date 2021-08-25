@@ -25,7 +25,7 @@ class CreateClientsTable extends Migration
             $table->string('phone_number');
             $table->string('email');
             $table->unsignedSmallInteger('status');
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }
